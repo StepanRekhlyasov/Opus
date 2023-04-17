@@ -27,7 +27,7 @@
         <q-item-label
           	header
         >
-			Useless links
+			Main menu
         </q-item-label>
 		<EssentialLink
           v-for="link in essentialLinks"
@@ -37,13 +37,19 @@
 		<div class="flexCenter">
 			<q-btn color="primary" label="Show Default links" @click="toggleDefaultLinks"/>
 		</div>
-        <template v-if="showDefaultLinks">
-			<EssentialLink
-						v-for="link in defaultLinks"
-						:key="link.title"
-						v-bind="link"
-			/>
-		</template>
+        <transition
+			appear
+			enter-active-class="animated fadeIn"
+  			leave-active-class="animated fadeOut"
+		>
+			<div v-if="showDefaultLinks">
+				<EssentialLink
+							v-for="link in defaultLinks"
+							:key="link.title"
+							v-bind="link"
+				/>
+			</div>
+		</transition>
       </q-list>
     </q-drawer>
 
@@ -65,7 +71,7 @@ import EssentialLink from 'components/EssentialLink.vue';
 const linksList = [
 	{
 		title: 'Github',
-		caption: 'Project repository ',
+		caption: 'Project repository',
 		icon: 'code',
 		link: 'https://github.com/StepanRekhlyasov'
 	},
