@@ -65,7 +65,7 @@ import EssentialLink from 'components/EssentialLink.vue';
 const linksList = [
 	{
 		title: 'Github',
-		caption: 'Project repository',
+		caption: 'Project repository ',
 		icon: 'code',
 		link: 'https://github.com/StepanRekhlyasov'
 	},
