@@ -73,7 +73,7 @@ const linksList = [
 		title: 'Github',
 		caption: 'Project repository',
 		icon: 'code',
-		link: 'https://github.com/StepanRekhlyasov'
+		link: 'https://github.com/StepanRekhlyasov/Opus'
 	},
 ]
 const defaultLinks = [
