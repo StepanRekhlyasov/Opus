@@ -10,8 +10,7 @@
           aria-label="Menu"
           @click="toggleLeftDrawer"
         />
-
-        <q-toolbar-title>
+        <q-toolbar-title @click="router.push('/')" style="cursor:pointer;">
           	Opus Quasar App
         </q-toolbar-title>
         <div>Quasar v{{ $q.version }}</div>
@@ -20,7 +19,7 @@
 
     <q-drawer
 		v-model="leftDrawerOpen"
-		show-if-above
+		:show-if-above="false"
 		bordered
     >
       <q-list>
@@ -54,7 +53,7 @@
     </q-drawer>
 
     <q-page-container>
-      <router-view />
+      	<router-view />
     </q-page-container>
   </q-layout>
 </template>
@@ -68,6 +67,7 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 import EssentialLink from 'components/EssentialLink.vue';
+import { useRouter } from 'vue-router';
 const linksList = [
 	{
 		title: 'Github',
@@ -123,10 +123,12 @@ export default defineComponent({
 	setup () {
 		const leftDrawerOpen = ref(false)
 		const showDefaultLinks = ref(false)
+		const router = useRouter()
 		return {
 			essentialLinks: linksList,
 			defaultLinks: defaultLinks,
 			leftDrawerOpen,
+			router,
 			showDefaultLinks,
 			toggleLeftDrawer () {
 				leftDrawerOpen.value = !leftDrawerOpen.value

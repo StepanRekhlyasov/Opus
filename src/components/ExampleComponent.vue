@@ -2,13 +2,12 @@
   <div>
     <p>{{ title }}</p>
     <ul>
-      <li v-for="todo, index in todos" :key="index" @click="increment">
+      <li v-for="todo, index in list" :key="index">
         {{ todo.Name }} - {{ todo.Task }}
       </li>
     </ul>
     <p>Count: {{ todoCount }} / {{ meta.totalCount }}</p>
-    <!-- <p>Active: {{ active ? 'yes' : 'no' }}</p> -->
-    <!-- <p>Clicks on todos: {{ clickCount }}</p> -->
+    <p>Authorized: {{ active ? 'yes' : 'no' }}</p>
   </div>
 </template>
 
@@ -17,24 +16,13 @@ import {
   defineComponent,
   PropType,
   computed,
-  ref,
   toRef,
   Ref,
 } from 'vue';
-import { TestResult, Meta } from './models';
+import { TaskList, Meta } from './models';
 
-function useClickCount() {
-  const clickCount = ref(0);
-  function increment() {
-    clickCount.value += 1
-    return clickCount.value;
-  }
-
-  return { clickCount, increment };
-}
-
-function useDisplayTodo(todos: Ref<TestResult[]>) {
-  const todoCount = computed(() => todos.value.length);
+function useDisplayTodo(list: Ref<TaskList[]>) {
+  const todoCount = computed(() => list.value.length);
   return { todoCount };
 }
 
@@ -45,8 +33,8 @@ export default defineComponent({
       type: String,
       required: true
     },
-    todos: {
-      type: Array as PropType<TestResult[]>,
+    list: {
+      type: Array as PropType<TaskList[]>,
       default: () => []
     },
     meta: {
@@ -58,7 +46,7 @@ export default defineComponent({
     }
   },
   setup(props) {
-    return { ...useClickCount(), ...useDisplayTodo(toRef(props, 'todos')) };
+    return { ...useDisplayTodo(toRef(props, 'list')) };
   },
 });
 </script>
