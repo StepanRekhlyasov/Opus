@@ -50,7 +50,7 @@ export default defineComponent({
 		<q-btn color="primary" icon="mail" label="Register" @click="router.push('/register')" />
 		<q-btn color="secondary" icon="mail" label="Log in" @click="router.push('/login')" />
 		<q-btn color="red" icon="mail" icon-right="send" label="Authorize with Google" @click="signInGoogle"/>
-		<q-btn color="red" icon="mail" icon-right="send" label="localStorage" @click="test"/>
+		<!-- <q-btn color="red" icon="mail" icon-right="send" label="localStorage" @click="test"/> -->
 		<q-btn v-if="authStore.is_auth" color="red" icon="mail" icon-right="send" label="logOut" @click="logOut"/>
 	</div>
 	<div id="firebaseui-auth-container" v-show="showAuthPopup">

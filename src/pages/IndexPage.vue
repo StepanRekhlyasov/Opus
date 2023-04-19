@@ -6,6 +6,7 @@
 			:active="authStore.is_auth"
 			:list="taskList"
 			:meta="meta"
+			v-if="authStore.is_auth"
 		></example-component>
 		<firebaseui-auth></firebaseui-auth>
 	</q-page>
@@ -38,11 +39,9 @@ export default defineComponent({
 		return { meta, getTest, taskList, authStore };
 	},
 	mounted(){
-		if(this.authStore.is_auth){
-			this.getTest().then((data)=>{
-				this.taskList = data as TaskList[]
-			})
-		}
+		this.getTest().then((data)=>{
+			this.taskList = data as TaskList[]
+		})
 	},
 });
 </script>
