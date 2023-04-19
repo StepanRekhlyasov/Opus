@@ -42,7 +42,7 @@ export default defineComponent({
       required: true
     },
     active: {
-      type: Boolean
+      type: Number
     }
   },
   setup(props) {

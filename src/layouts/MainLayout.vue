@@ -68,6 +68,9 @@
 import { defineComponent, ref } from 'vue';
 import EssentialLink from 'components/EssentialLink.vue';
 import { useRouter } from 'vue-router';
+import { onAuthStateChanged } from '@firebase/auth';
+import { auth } from 'src/boot/firebase';
+import { useAuthStore } from 'src/stores/authorization';
 const linksList = [
 	{
 		title: 'Github',
@@ -124,7 +127,9 @@ export default defineComponent({
 		const leftDrawerOpen = ref(false)
 		const showDefaultLinks = ref(false)
 		const router = useRouter()
+		const authStore = useAuthStore()
 		return {
+			authStore,
 			essentialLinks: linksList,
 			defaultLinks: defaultLinks,
 			leftDrawerOpen,
@@ -137,6 +142,16 @@ export default defineComponent({
 				showDefaultLinks.value = !showDefaultLinks.value 
 			}
 		}
+	},
+	beforeCreate(){
+		onAuthStateChanged(auth, (user)=>{
+			console.log(user)
+			if(user){
+				this.authStore.logIn()
+			} else {
+				this.authStore.logOut()
+			}
+		})
 	}
 });
 </script>

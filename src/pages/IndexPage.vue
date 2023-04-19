@@ -1,13 +1,13 @@
 <template>
 	<q-page class="row items-center justify-evenly">
+		{{ authStore.is_auth }}
 		<example-component
 			title="Example fetch from Firebase"
-			:active="false"
+			:active="authStore.is_auth"
 			:list="taskList"
 			:meta="meta"
-			v-if="is_auth"
 		></example-component>
-		<firebaseui-auth v-else></firebaseui-auth>
+		<firebaseui-auth></firebaseui-auth>
 	</q-page>
 </template>
 
@@ -18,6 +18,8 @@ import FirebaseuiAuth from 'components/FirebaseuiAuth.vue';
 import { defineComponent, ref } from 'vue';
 import { collection, getDocs } from 'firebase/firestore/lite';
 import { db } from 'src/boot/firebase';
+import { useAuthStore } from 'src/stores/authorization';
+
 export default defineComponent({
 	name: 'IndexPage',
 	components: { ExampleComponent, FirebaseuiAuth },
@@ -28,17 +30,19 @@ export default defineComponent({
 			const testList = testSnapshot.docs.map(doc => doc.data());
 			return testList;
 		}
-		const is_auth = ref<boolean>(false)
+		const authStore = useAuthStore()
 		const taskList = ref<TaskList[]>([])
 		const meta = ref<Meta>({
 			totalCount: 1200
 		});
-		return { meta, getTest, taskList, is_auth };
+		return { meta, getTest, taskList, authStore };
 	},
 	mounted(){
-		this.getTest().then((data)=>{
-			this.taskList = data as TaskList[]
-		})
+		if(this.authStore.is_auth){
+			this.getTest().then((data)=>{
+				this.taskList = data as TaskList[]
+			})
+		}
 	},
 });
 </script>

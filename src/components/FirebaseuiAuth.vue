@@ -2,8 +2,9 @@
 import { auth, provider } from '../boot/firebase'
 import { signInWithPopup } from '@firebase/auth';
 import { defineComponent, ref } from 'vue';
-import { GoogleAuthProvider } from 'firebase/auth';
+import { GoogleAuthProvider, signOut } from 'firebase/auth';
 import { useRouter } from 'vue-router';
+import { useAuthStore } from '../stores/authorization'
 
 export default defineComponent({
 			setup(){
@@ -23,13 +24,23 @@ export default defineComponent({
 				});
 			}
 			const router = useRouter()
+			const authStore = useAuthStore()
 		return {
+			authStore,
 			router,
 			showAuthPopup,
 			toggleAuthPopup(){
 				showAuthPopup.value = !showAuthPopup.value
 			},
-			signInGoogle
+			signInGoogle,
+			test(){
+				console.log(localStorage)
+			},
+			logOut(){
+				signOut(auth).then(()=>{
+					authStore.logOut()
+				})
+			}
 		}
 	},
 })
@@ -39,6 +50,8 @@ export default defineComponent({
 		<q-btn color="primary" icon="mail" label="Register" @click="router.push('/register')" />
 		<q-btn color="secondary" icon="mail" label="Log in" @click="router.push('/login')" />
 		<q-btn color="red" icon="mail" icon-right="send" label="Authorize with Google" @click="signInGoogle"/>
+		<q-btn color="red" icon="mail" icon-right="send" label="localStorage" @click="test"/>
+		<q-btn v-if="authStore.is_auth" color="red" icon="mail" icon-right="send" label="logOut" @click="logOut"/>
 	</div>
 	<div id="firebaseui-auth-container" v-show="showAuthPopup">
 	</div>
